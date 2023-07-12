@@ -1,9 +1,13 @@
+import { useState } from "react";
+
+import axios from "axios";
+import { AxiosError } from "axios";
+
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { Alert, Box, Container, TextField, Typography } from "@mui/material";
+
 import LoadingButton from "@mui/lab/LoadingButton";
-import axios from "axios";
-import { useState } from "react";
+import { Alert, Box, Container, TextField, Typography } from "@mui/material";
 
 const SignUp = () => {
   const [error, setError] = useState("");
@@ -39,11 +43,10 @@ const SignUp = () => {
           try {
             await axios.post("http://127.0.0.1:8000/api/register", values);
           } catch (error) {
-            const message = (error as Error).message;
-            if (message === "Request failed with status code 422") {
-              setError("The email has already been exist.");
+            if ((error as AxiosError).response?.status === 422) {
+              setError(((error as AxiosError).response?.data as Error).message);
             } else {
-              setError(message);
+              setError((error as AxiosError).message);
             }
           }
         }}
