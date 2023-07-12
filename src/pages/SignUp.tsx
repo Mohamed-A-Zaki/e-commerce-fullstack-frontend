@@ -1,9 +1,13 @@
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Alert, Box, Container, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import axios from "axios";
+import { useState } from "react";
 
 const SignUp = () => {
+  const [error, setError] = useState("");
+
   return (
     <Container
       fixed
@@ -21,20 +25,27 @@ const SignUp = () => {
           name: "",
           email: "",
           password: "",
-          confirmPassword: "",
+          password_confirmation: "",
         }}
         validationSchema={Yup.object({
           name: Yup.string().required(),
           email: Yup.string().required().email(),
-          password: Yup.string().required(),
-          confirmPassword: Yup.string()
+          password: Yup.string().required().min(8),
+          password_confirmation: Yup.string()
             .required()
             .oneOf([Yup.ref("password")]),
         })}
-        onSubmit={(_values, { resetForm }) => {
-          setTimeout(() => {
-            resetForm();
-          }, 2000);
+        onSubmit={async (values) => {
+          try {
+            await axios.post("http://127.0.0.1:8000/api/register", values);
+          } catch (error) {
+            const message = (error as Error).message;
+            if (message === "Request failed with status code 422") {
+              setError("The email has already been exist.");
+            } else {
+              setError(message);
+            }
+          }
         }}
       >
         {({ getFieldProps, handleSubmit, errors, touched, isSubmitting }) => (
@@ -52,6 +63,12 @@ const SignUp = () => {
             >
               Sign Up
             </Typography>
+
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
 
             <TextField
               type="text"
@@ -102,12 +119,17 @@ const SignUp = () => {
               variant="filled"
               fullWidth
               sx={{ mb: 2 }}
-              {...getFieldProps("confirmPassword")}
+              {...getFieldProps("password_confirmation")}
               helperText={
-                !!(errors.confirmPassword && touched.confirmPassword) &&
-                errors.confirmPassword
+                !!(
+                  errors.password_confirmation && touched.password_confirmation
+                ) && errors.password_confirmation
               }
-              error={!!(errors.confirmPassword && touched.confirmPassword)}
+              error={
+                !!(
+                  errors.password_confirmation && touched.password_confirmation
+                )
+              }
             />
 
             <LoadingButton
@@ -115,7 +137,12 @@ const SignUp = () => {
               variant="contained"
               loading={isSubmitting}
               loadingIndicator="Loadin..."
-              sx={{ display: "block", m: "auto", minWidth: 120, maxWidth : "100%" }}
+              sx={{
+                display: "block",
+                m: "auto",
+                minWidth: 120,
+                maxWidth: "100%",
+              }}
             >
               Submit
             </LoadingButton>
