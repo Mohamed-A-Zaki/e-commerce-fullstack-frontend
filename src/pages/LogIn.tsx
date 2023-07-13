@@ -26,7 +26,7 @@ type Res_Data = {
   status: string;
 };
 
-const SignUp = () => {
+const LogIn = () => {
   const [error, setError] = useState("");
 
   return (
@@ -43,23 +43,17 @@ const SignUp = () => {
     >
       <Formik
         initialValues={{
-          name: "",
           email: "",
           password: "",
-          password_confirmation: "",
         }}
         validationSchema={Yup.object({
-          name: Yup.string().required(),
           email: Yup.string().required().email(),
           password: Yup.string().required().min(8),
-          password_confirmation: Yup.string()
-            .required()
-            .oneOf([Yup.ref("password")]),
         })}
         onSubmit={async (values) => {
           try {
             const { data }: AxiosResponse<Res_Data> = await axios.post(
-              "http://127.0.0.1:8000/api/register",
+              "http://127.0.0.1:8000/api/login",
               values
             );
             // const { user, token } = data.data;
@@ -83,7 +77,7 @@ const SignUp = () => {
               textAlign="center"
               sx={{ mb: 2 }}
             >
-              Sign Up
+              Login
             </Typography>
 
             {error && (
@@ -91,19 +85,6 @@ const SignUp = () => {
                 {error}
               </Alert>
             )}
-
-            <TextField
-              type="text"
-              label="Full Name"
-              id="name"
-              size="small"
-              variant="filled"
-              fullWidth
-              sx={{ mb: 2 }}
-              {...getFieldProps("name")}
-              helperText={!!(errors.name && touched.name) && errors.name}
-              error={!!(errors.name && touched.name)}
-            />
 
             <TextField
               type="email"
@@ -133,27 +114,6 @@ const SignUp = () => {
               error={!!(errors.password && touched.password)}
             />
 
-            <TextField
-              type="password"
-              label="Confirm Password"
-              id="confirm password"
-              size="small"
-              variant="filled"
-              fullWidth
-              sx={{ mb: 2 }}
-              {...getFieldProps("password_confirmation")}
-              helperText={
-                !!(
-                  errors.password_confirmation && touched.password_confirmation
-                ) && errors.password_confirmation
-              }
-              error={
-                !!(
-                  errors.password_confirmation && touched.password_confirmation
-                )
-              }
-            />
-
             <LoadingButton
               type="submit"
               variant="contained"
@@ -166,7 +126,7 @@ const SignUp = () => {
                 maxWidth: "100%",
               }}
             >
-              Submit
+              Login
             </LoadingButton>
           </Box>
         )}
@@ -175,4 +135,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default LogIn;
