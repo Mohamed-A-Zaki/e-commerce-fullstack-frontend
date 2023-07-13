@@ -1,7 +1,15 @@
 import { Box, Button } from "@mui/material";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const NavbarLinks = () => {
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("email"));
+
+  function handle_logout() {
+    localStorage.removeItem("email");
+    setIsLogin(null);
+  }
+
   return (
     <>
       <Box
@@ -28,12 +36,25 @@ const NavbarLinks = () => {
       >
         Contact
       </Box>
-      <Button variant="contained" size="small" component={Link} to="/login">
-        Login
-      </Button>
-      <Button variant="contained" size="small" component={Link} to="/signup">
-        Signup
-      </Button>
+      {!isLogin ? (
+        <>
+          <Button variant="contained" size="small" component={Link} to="/login">
+            Login
+          </Button>
+          <Button
+            variant="contained"
+            size="small"
+            component={Link}
+            to="/signup"
+          >
+            Signup
+          </Button>
+        </>
+      ) : (
+        <Button variant="contained" size="small" onClick={handle_logout}>
+          Logout
+        </Button>
+      )}
     </>
   );
 };

@@ -54,6 +54,8 @@ const SignUp = () => {
             values
           );
           // const { user, token } = data.data;
+          console.log(data);
+          localStorage.setItem("email", values.email);
           navigate("/", { replace: true });
         } catch (error) {
           const _error = error as AxiosError;
