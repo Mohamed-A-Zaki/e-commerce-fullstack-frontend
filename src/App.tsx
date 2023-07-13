@@ -1,12 +1,10 @@
 import "./App.css";
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
+import Navbar from "./Components/Navbar";
 
 const App = () => {
   return (
     <>
-      <SignUp />
-      {/* <LogIn /> */}
+      <Navbar />
     </>
   );
 };
