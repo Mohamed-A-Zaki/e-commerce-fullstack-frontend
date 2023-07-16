@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import axios, { AxiosResponse } from "axios";
-import { AxiosError } from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -10,22 +9,7 @@ import { Formik } from "formik";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Alert, Box, TextField, Typography } from "@mui/material";
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
-
-type Data = {
-  token: string;
-  user: User;
-};
-
-type Res_Data = {
-  data: Data;
-  message: string;
-  status: string;
-};
+import Auth_Res_Data from "../types/auth.type";
 
 const LogIn = () => {
   const [error, setError] = useState("");
@@ -43,7 +27,7 @@ const LogIn = () => {
       })}
       onSubmit={async (values) => {
         try {
-          const { data }: AxiosResponse<Res_Data> = await axios.post(
+          const { data }: AxiosResponse<Auth_Res_Data> = await axios.post(
             "http://127.0.0.1:8000/api/login",
             values
           );
@@ -53,7 +37,8 @@ const LogIn = () => {
           navigate("/", { replace: true });
         } catch (error) {
           const _error = error as AxiosError;
-          const { status, data } = _error.response as AxiosResponse<Res_Data>;
+          const { status, data } =
+            _error.response as AxiosResponse<Auth_Res_Data>;
           setError(status === 404 ? _error.message : data.message);
         }
       }}
