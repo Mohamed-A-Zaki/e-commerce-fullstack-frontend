@@ -1,6 +1,5 @@
-import { edit_user, get_user } from "./editUserSlice";
-import { delete_user } from "./usersSlice";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { delete_user, edit_user, get_user } from "./usersSlice";
 
 type InitialState = {
   open: boolean;
