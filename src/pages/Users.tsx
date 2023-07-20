@@ -8,35 +8,26 @@ import {
   TableCell,
   Alert,
   Box,
+  Typography,
 } from "@mui/material";
 
-import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import { useEffect } from "react";
+import UsersList from "../Components/UsersList";
 
-import User from "../types/user.type";
+import { get_users } from "../store/usersSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const Users = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [error, setError] = useState("");
+  const dispatch = useAppDispatch();
+  const { users, loading, error } = useAppSelector((state) => state.users);
 
-  useEffect(() => get_users(), []);
+  useEffect(() => void dispatch(get_users()), [dispatch]);
 
-  function get_users() {
-    axios
-      .get("http://127.0.0.1:8000/api/user/show")
-      .then(({ data }: AxiosResponse<User[]>) => {
-        setUsers(data);
-      })
-      .catch((error) => {
-        setError((error as Error).message);
-      });
-  }
-
-  if (!users.length) {
+  if (loading) {
     return (
-      <Alert sx={{ m: 2 }} severity="info">
-        There is no users
-      </Alert>
+      <Typography sx={{ m: 2, textAlign: "center" }} variant="h5">
+        Loading...
+      </Typography>
     );
   }
 
@@ -44,6 +35,14 @@ const Users = () => {
     return (
       <Alert sx={{ m: 2 }} severity="error">
         {error}
+      </Alert>
+    );
+  }
+
+  if (!users.length) {
+    return (
+      <Alert sx={{ m: 2 }} severity="info">
+        There is no users
       </Alert>
     );
   }
@@ -57,18 +56,12 @@ const Users = () => {
               <TableCell>id</TableCell>
               <TableCell>name</TableCell>
               <TableCell>email</TableCell>
+              <TableCell>edit</TableCell>
+              <TableCell>delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map(({ id, name, email }, index) => {
-              return (
-                <TableRow key={id}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{name}</TableCell>
-                  <TableCell>{email}</TableCell>
-                </TableRow>
-              );
-            })}
+            <UsersList users={users} />
           </TableBody>
         </Table>
       </TableContainer>
