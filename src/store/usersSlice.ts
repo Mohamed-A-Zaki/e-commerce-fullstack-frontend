@@ -34,6 +34,7 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // get users list
       .addCase(get_users.pending, (state) => {
         state.loading = true;
       })
@@ -45,7 +46,7 @@ const usersSlice = createSlice({
         state.loading = false;
         state.error = error.message as string;
       })
-
+      // delete user
       .addCase(delete_user.fulfilled, (state, { payload }) => {
         state.users = state.users.filter((ele) => ele.id !== payload);
       });

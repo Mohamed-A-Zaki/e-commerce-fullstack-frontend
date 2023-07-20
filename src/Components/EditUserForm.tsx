@@ -10,9 +10,9 @@ import {
 import * as Yup from "yup";
 import { Formik } from "formik";
 
+import { get_users } from "../store/usersSlice";
 import { closeForm, edit_user } from "../store/editUserSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { get_users } from "../store/usersSlice";
 
 const EditUserForm = () => {
   const dispatch = useAppDispatch();

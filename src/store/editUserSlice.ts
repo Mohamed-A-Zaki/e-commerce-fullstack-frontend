@@ -34,17 +34,19 @@ const editUserSlice = createSlice({
   name: "editUser",
   initialState,
   reducers: {
+    // close form
     closeForm: (state) => {
       state.open = false;
     },
   },
   extraReducers: (builder) => {
     builder
+      // get user
       .addCase(get_user.fulfilled, (state, action) => {
         state.user = action.payload;
         state.open = true;
       })
-
+      // edit user
       .addCase(edit_user.fulfilled, (state) => {
         state.open = false;
       });
