@@ -1,18 +1,15 @@
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { resetAuthData } from "../store/authSlice";
 
 const NavbarLinks = () => {
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("email"));
-
-  function handle_logout() {
-    localStorage.removeItem("email");
-    setIsLogin(null);
-  }
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
     <>
-      <Box
+      {/* <Box
         component={NavLink}
         to="/"
         fontSize={17}
@@ -35,8 +32,8 @@ const NavbarLinks = () => {
         sx={{ "&.active": { color: "primary.main" } }}
       >
         Contact
-      </Box>
-      {!isLogin ? (
+      </Box> */}
+      {!user ? (
         <>
           <Button variant="contained" size="small" component={Link} to="/login">
             Login
@@ -51,10 +48,17 @@ const NavbarLinks = () => {
           </Button>
         </>
       ) : (
-        <Button variant="contained" size="small" onClick={handle_logout}>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => dispatch(resetAuthData())}
+        >
           Logout
         </Button>
       )}
+      <Button variant="contained" size="small" component={Link} to="/dashboard">
+        Dashboard
+      </Button>
     </>
   );
 };

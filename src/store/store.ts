@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import usersReducer from "./usersSlice";
 import toastReducer from "./toastSlice";
-import editUserReducer from "./editUserSlice";
+import editFormReducer from "./editFormSlice";
+import authReducer from "./authSlice";
 
 const store = configureStore({
   reducer: {
     users: usersReducer,
     toast: toastReducer,
-    editUser: editUserReducer,
+    editForm: editFormReducer,
+    auth: authReducer,
   },
 });
 

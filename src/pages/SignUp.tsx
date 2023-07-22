@@ -10,10 +10,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Alert, Box, TextField, Typography } from "@mui/material";
 
 import Auth_Res_Data from "../types/auth.type";
+import { useAppDispatch } from "../store/hooks";
+import { setAuthData } from "../store/authSlice";
 
 const SignUp = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   return (
     <Formik
@@ -37,9 +41,7 @@ const SignUp = () => {
             "http://127.0.0.1:8000/api/register",
             values
           );
-          // const { user, token } = data.data;
-          console.log(data);
-          localStorage.setItem("email", values.email);
+          dispatch(setAuthData(data.data));
           navigate("/", { replace: true });
         } catch (error) {
           const _error = error as AxiosError;

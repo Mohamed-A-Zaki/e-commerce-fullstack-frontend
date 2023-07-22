@@ -11,6 +11,11 @@ const Sidebar = () => {
           <ListItemText>Users</ListItemText>
         </ListItemButton>
       </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => navigate("create")}>
+          <ListItemText>Create User</ListItemText>
+        </ListItemButton>
+      </ListItem>
     </List>
   );
 };

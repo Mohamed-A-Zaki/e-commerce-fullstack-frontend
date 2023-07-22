@@ -10,14 +10,14 @@ import {
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import { closeForm } from "../store/editUserSlice";
+import { closeForm } from "../store/editFormSlice";
 import { edit_user } from "../store/usersSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const EditUserForm = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.users);
-  const { open } = useAppSelector((state) => state.editUser);
+  const { open } = useAppSelector((state) => state.editForm);
 
   return (
     <Dialog open={open} onClose={() => dispatch(closeForm())}>

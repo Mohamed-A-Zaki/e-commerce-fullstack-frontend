@@ -9,7 +9,7 @@ const initialState: InitialState = {
   open: false,
 };
 
-const editUserSlice = createSlice({
+const editFormSlice = createSlice({
   name: "editUser",
   initialState,
   reducers: {
@@ -31,6 +31,6 @@ const editUserSlice = createSlice({
   },
 });
 
-export const { closeForm } = editUserSlice.actions;
+export const { closeForm } = editFormSlice.actions;
 
-export default editUserSlice.reducer;
+export default editFormSlice.reducer;
