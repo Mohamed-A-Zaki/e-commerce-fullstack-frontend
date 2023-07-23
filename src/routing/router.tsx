@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import App from "./App";
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
-import CreateUser from "./pages/CreateUser";
+import App from "../App";
+import LogIn from "../pages/LogIn";
+import SignUp from "../pages/SignUp";
+import Dashboard from "../pages/Dashboard";
+import Users from "../pages/Users";
+import CreateUser from "../pages/CreateUser";
+import RequiredAuth from "./RequiredAuth";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <RequiredAuth>
+        <Dashboard />
+      </RequiredAuth>
+    ),
     children: [
       {
         path: "users",

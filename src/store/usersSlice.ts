@@ -27,7 +27,7 @@ export const get_users = createAsyncThunk("users/get_users", async () => {
 export const delete_user = createAsyncThunk(
   "users/delete_user",
   async (id: number) => {
-    await axios.delete(`http://127.0.0.1:8000/api/user/delete0/${id}`);
+    await axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`);
     return id;
   }
 );
