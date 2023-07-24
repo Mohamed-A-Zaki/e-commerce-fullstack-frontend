@@ -10,7 +10,7 @@ const initialState: InitialState = {
 };
 
 const editFormSlice = createSlice({
-  name: "editUser",
+  name: "editForm",
   initialState,
   reducers: {
     // close form

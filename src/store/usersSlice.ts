@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import User from "../types/user.type";
 import SignupData from "../types/SignupData.type";
+import Global_State from "../types/global_state.type";
 
 type InitialState = {
   users: User[];
@@ -18,33 +19,62 @@ const initialState: InitialState = {
   loading: true,
 };
 
-export const get_users = createAsyncThunk("users/get_users", async () => {
-  const url = "http://127.0.0.1:8000/api/user/show";
-  const { data }: AxiosResponse<User[]> = await axios.get(url);
-  return data;
-});
-
-export const delete_user = createAsyncThunk(
-  "users/delete_user",
-  async (id: number) => {
-    await axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`);
-    return id;
+// get all users
+export const get_users = createAsyncThunk(
+  "users/get_users",
+  async (_, ThunkAPI) => {
+    const url = "http://127.0.0.1:8000/api/user/show";
+    const { data }: AxiosResponse<User[]> = await axios.get(url, {
+      headers: {
+        Authorization:
+          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
+      },
+    });
+    return data;
   }
 );
 
+// get one user
 export const get_user = createAsyncThunk(
   "editUser/get_user",
-  async (id: number) => {
+  async (id: number, ThunkAPI) => {
     const url = `http://127.0.0.1:8000/api/user/showbyid/${id}`;
-    const { data }: AxiosResponse<User[]> = await axios.get(url);
+    const { data }: AxiosResponse<User[]> = await axios.get(url, {
+      headers: {
+        Authorization:
+          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
+      },
+    });
     return data[0];
   }
 );
 
+// delete user
+export const delete_user = createAsyncThunk(
+  "users/delete_user",
+  async (id: number, ThunkAPI) => {
+    const url = `http://127.0.0.1:8000/api/user/delete/${id}`;
+    await axios.delete(url, {
+      headers: {
+        Authorization:
+          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
+      },
+    });
+    return id;
+  }
+);
+
+// edit user
 export const edit_user = createAsyncThunk(
   "users/edit_user",
-  async ({ id, values }: { id: number; values: SignupData }) => {
-    await axios.post(`http://127.0.0.1:8000/api/user/update/${id}`, values);
+  async ({ id, values }: { id: number; values: SignupData }, ThunkAPI) => {
+    const url = `http://127.0.0.1:8000/api/user/update/${id}`;
+    await axios.post(url, values, {
+      headers: {
+        Authorization:
+          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
+      },
+    });
     return id;
   }
 );
