@@ -18,7 +18,7 @@ const ToastMessage = () => {
       open={open}
       autoHideDuration={2000}
       onClose={handle_close}
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
       <Alert onClose={() => dispatch(hideToast())} severity="error">
         {message}

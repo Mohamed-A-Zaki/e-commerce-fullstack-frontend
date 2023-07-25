@@ -7,6 +7,8 @@ import Dashboard from "../pages/Dashboard";
 import Users from "../pages/Users";
 import CreateUser from "../pages/CreateUser";
 import RequiredAuth from "./RequiredAuth";
+import Products from "../pages/Products";
+import CreateProduct from "../pages/CreateProduct";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +36,16 @@ const router = createBrowserRouter([
         element: <Users />,
       },
       {
-        path: "create",
+        path: "create-user",
         element: <CreateUser />,
+      },
+      {
+        path: "products",
+        element: <Products />,
+      },
+      {
+        path: "create-product",
+        element: <CreateProduct />,
       },
     ],
   },

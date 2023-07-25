@@ -24,12 +24,12 @@ export const get_users = createAsyncThunk(
   "users/get_users",
   async (_, ThunkAPI) => {
     const url = "http://127.0.0.1:8000/api/user/show";
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
     const { data }: AxiosResponse<User[]> = await axios.get(url, {
-      headers: {
-        Authorization:
-          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
-      },
+      headers: { Authorization: "Bearer " + token },
     });
+
     return data;
   }
 );
@@ -39,13 +39,28 @@ export const get_user = createAsyncThunk(
   "editUser/get_user",
   async (id: number, ThunkAPI) => {
     const url = `http://127.0.0.1:8000/api/user/showbyid/${id}`;
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
     const { data }: AxiosResponse<User[]> = await axios.get(url, {
-      headers: {
-        Authorization:
-          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
-      },
+      headers: { Authorization: "Bearer " + token },
     });
+
     return data[0];
+  }
+);
+
+// create a new user
+export const create_user = createAsyncThunk(
+  "users/create_user",
+  async (values: SignupData, ThunkAPI) => {
+    const url = "http://127.0.0.1:8000/api/user/create";
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
+    await axios.post(url, values, {
+      headers: { Authorization: "Bearer " + token },
+    });
+
+    return;
   }
 );
 
@@ -54,12 +69,12 @@ export const delete_user = createAsyncThunk(
   "users/delete_user",
   async (id: number, ThunkAPI) => {
     const url = `http://127.0.0.1:8000/api/user/delete/${id}`;
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
     await axios.delete(url, {
-      headers: {
-        Authorization:
-          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
-      },
+      headers: { Authorization: "Bearer " + token },
     });
+
     return id;
   }
 );
@@ -69,12 +84,12 @@ export const edit_user = createAsyncThunk(
   "users/edit_user",
   async ({ id, values }: { id: number; values: SignupData }, ThunkAPI) => {
     const url = `http://127.0.0.1:8000/api/user/update/${id}`;
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
     await axios.post(url, values, {
-      headers: {
-        Authorization:
-          "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
-      },
+      headers: { Authorization: "Bearer " + token },
     });
+
     return id;
   }
 );

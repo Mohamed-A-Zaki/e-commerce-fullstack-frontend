@@ -12,8 +12,18 @@ const Sidebar = () => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton onClick={() => navigate("create")}>
+        <ListItemButton onClick={() => navigate("create-user")}>
           <ListItemText>Create User</ListItemText>
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => navigate("products")}>
+          <ListItemText>Products</ListItemText>
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => navigate("create-product")}>
+          <ListItemText>Create Product</ListItemText>
         </ListItemButton>
       </ListItem>
     </List>

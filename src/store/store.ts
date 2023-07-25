@@ -3,6 +3,7 @@ import usersReducer from "./usersSlice";
 import toastReducer from "./toastSlice";
 import editFormReducer from "./editFormSlice";
 import authReducer from "./authSlice";
+import productsReducer from "./productsSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     toast: toastReducer,
     editForm: editFormReducer,
     auth: authReducer,
+    products: productsReducer,
   },
 });
 

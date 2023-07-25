@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { delete_user, edit_user, get_user } from "./usersSlice";
+import { create_user, delete_user, edit_user, get_user } from "./usersSlice";
+import { create_product } from "./productsSlice";
 
 type InitialState = {
   open: boolean;
@@ -39,6 +40,16 @@ const toastSlice = createSlice({
       })
       // rejected case - edit user
       .addCase(edit_user.rejected, (state, { error }) => {
+        state.open = true;
+        state.message = error.message as string;
+      })
+      // rejected case - create user
+      .addCase(create_user.rejected, (state, { error }) => {
+        state.open = true;
+        state.message = error.message as string;
+      })
+      // rejected case - create product
+      .addCase(create_product.rejected, (state, { error }) => {
         state.open = true;
         state.message = error.message as string;
       });
