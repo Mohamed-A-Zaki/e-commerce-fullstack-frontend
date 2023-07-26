@@ -1,21 +1,13 @@
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useAppDispatch } from "../store/hooks";
-import { delete_user } from "../store/usersSlice";
 
 type Props = {
-  id: number;
+  onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
 };
 
-const DelteButtton = ({ id }: Props) => {
-  const dispatch = useAppDispatch();
-
+const DelteButtton = (props: Props) => {
   return (
-    <IconButton
-      color="error"
-      aria-label="delete"
-      onClick={() => void dispatch(delete_user(id))}
-    >
+    <IconButton color="error" aria-label="delete" {...props}>
       <DeleteIcon />
     </IconButton>
   );

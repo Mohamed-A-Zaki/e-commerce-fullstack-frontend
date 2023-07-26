@@ -1,13 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import Global_State from "../types/global_state.type";
-
-type Product = {
-  // id: number;
-  title: string;
-  image: File;
-  description: string;
-};
+import Product from "../types/product.type";
 
 type InitialState = {
   products: Product[];
@@ -23,9 +17,26 @@ const initialState: InitialState = {
   error: "",
 };
 
+export const get_products = createAsyncThunk(
+  "products/get_products",
+  async (_, ThunkAPI) => {
+    // request url
+    const url = "http://127.0.0.1:8000/api/product/show";
+
+    // get token for authorization
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
+    const { data }: AxiosResponse<Product[]> = await axios.get(url, {
+      headers: { Authorization: "Bearer " + token },
+    });
+
+    return data;
+  }
+);
+
 export const create_product = createAsyncThunk(
   "products/create_product",
-  async (values: Product, ThunkAPI) => {
+  async (values: Omit<Product, "id">, ThunkAPI) => {
     // create form_data object
     const form_data = new FormData();
 
@@ -48,11 +59,45 @@ export const create_product = createAsyncThunk(
   }
 );
 
+export const delete_product = createAsyncThunk(
+  "products/delete_product",
+  async (id: number, ThunkAPI) => {
+    // request url
+    const url = `http://127.0.0.1:8000/api/product/delete/${id}`;
+
+    // get token for authorization
+    const token = (ThunkAPI.getState() as Global_State).auth.token;
+
+    await axios.delete(url, {
+      headers: { Authorization: "Bearer " + token },
+    });
+
+    return id;
+  }
+);
+
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {},
-  // extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(get_products.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(get_products.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.products = payload;
+      })
+      .addCase(get_products.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error.message as string;
+      })
+
+      .addCase(delete_product.fulfilled, (state, { payload }) => {
+        state.products = state.products.filter((ele) => ele.id !== payload);
+      });
+  },
 });
 
 // export const {} = productsSlice.actions;
