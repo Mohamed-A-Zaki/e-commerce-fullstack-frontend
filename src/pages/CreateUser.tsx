@@ -1,13 +1,14 @@
+import { Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, TextField, Typography } from "@mui/material";
-
 import { useAppDispatch } from "../store/hooks";
-import { create_user } from "./../store/usersSlice";
+import { create_user } from "../store/usersSlice";
+
+import FormHeading from "../Components/FormHeading";
+import SubmitButton from "../Components/SubmitButton";
 
 const CreateUser = () => {
   const navigate = useNavigate();
@@ -38,16 +39,12 @@ const CreateUser = () => {
     >
       {({ getFieldProps, handleSubmit, errors, touched, isSubmitting }) => (
         <Box noValidate component="form" onSubmit={handleSubmit} p={4}>
-          <Typography mb={2} variant="h4" component="h1" textAlign="center">
-            Create User
-          </Typography>
+          <FormHeading>Create User</FormHeading>
 
           <TextField
             type="text"
             label="Full Name"
             id="name"
-            size="small"
-            variant="filled"
             fullWidth
             sx={{ mb: 2 }}
             {...getFieldProps("name")}
@@ -59,8 +56,6 @@ const CreateUser = () => {
             type="email"
             label="Email Address"
             id="email"
-            size="small"
-            variant="filled"
             fullWidth
             sx={{ mb: 2 }}
             {...getFieldProps("email")}
@@ -72,8 +67,6 @@ const CreateUser = () => {
             type="password"
             label="password"
             id="Password"
-            size="small"
-            variant="filled"
             fullWidth
             sx={{ mb: 2 }}
             {...getFieldProps("password")}
@@ -87,8 +80,6 @@ const CreateUser = () => {
             type="password"
             label="Confirm Password"
             id="confirm password"
-            size="small"
-            variant="filled"
             fullWidth
             sx={{ mb: 2 }}
             {...getFieldProps("password_confirmation")}
@@ -102,20 +93,7 @@ const CreateUser = () => {
             }
           />
 
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            loadingIndicator="Loadin..."
-            sx={{
-              display: "block",
-              m: "auto",
-              minWidth: 120,
-              maxWidth: "100%",
-            }}
-          >
-            Create
-          </LoadingButton>
+          <SubmitButton loading={isSubmitting}>Create</SubmitButton>
         </Box>
       )}
     </Formik>

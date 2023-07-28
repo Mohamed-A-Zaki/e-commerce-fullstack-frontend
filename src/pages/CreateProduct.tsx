@@ -1,14 +1,15 @@
 import { useRef } from "react";
+import { Box, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
-import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, TextField, Typography } from "@mui/material";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
 
 import { useAppDispatch } from "../store/hooks";
 import { create_product } from "../store/productsSlice";
+
+import FormHeading from "../Components/FormHeading";
+import SubmitButton from "../Components/SubmitButton";
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -27,18 +28,17 @@ const CreateProduct = () => {
         description: Yup.string().required(),
         image: Yup.string().required(),
       })}
-      onSubmit={(values) => {
+      onSubmit={(values, { setSubmitting }) => {
         const file = (file_input.current?.files as FileList)[0];
-        void dispatch(create_product({ ...values, image: file }))
+        dispatch(create_product({ ...values, image: file }))
           .unwrap()
-          .then(() => navigate("/dashboard/products"));
+          .then(() => navigate("/dashboard/products"))
+          .catch(() => setSubmitting(false));
       }}
     >
       {({ getFieldProps, handleSubmit, errors, touched, isSubmitting }) => (
         <Box noValidate component="form" onSubmit={handleSubmit} p={4}>
-          <Typography mb={2} variant="h4" component="h1" textAlign="center">
-            Create Product
-          </Typography>
+          <FormHeading>Create Product</FormHeading>
 
           <TextField
             type="text"
@@ -80,20 +80,7 @@ const CreateProduct = () => {
             inputRef={file_input}
           />
 
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            loadingIndicator="Loadin..."
-            sx={{
-              display: "block",
-              m: "auto",
-              minWidth: 120,
-              maxWidth: "100%",
-            }}
-          >
-            Create
-          </LoadingButton>
+          <SubmitButton loading={isSubmitting}>Create</SubmitButton>
         </Box>
       )}
     </Formik>

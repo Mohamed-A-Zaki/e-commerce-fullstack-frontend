@@ -1,18 +1,15 @@
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  TextField,
-  Typography,
-  Button,
-} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Box, Dialog, DialogContent, TextField, Button } from "@mui/material";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import { closeForm } from "../store/editFormSlice";
 import { edit_user } from "../store/usersSlice";
+import { closeForm } from "../store/editFormSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+
+import FormHeading from "./FormHeading";
+import SubmitButton from "./SubmitButton";
 
 const EditUserForm = () => {
   const dispatch = useAppDispatch();
@@ -45,21 +42,12 @@ const EditUserForm = () => {
         >
           {({ getFieldProps, handleSubmit, errors, touched, isSubmitting }) => (
             <Box noValidate component="form" onSubmit={handleSubmit}>
-              <Typography
-                variant="h4"
-                component="h1"
-                textAlign="center"
-                sx={{ mb: 2 }}
-              >
-                Edit User
-              </Typography>
+              <FormHeading>Edit User</FormHeading>
 
               <TextField
                 type="text"
                 label="Full Name"
                 id="name"
-                size="small"
-                variant="filled"
                 fullWidth
                 sx={{ mb: 2 }}
                 {...getFieldProps("name")}
@@ -71,8 +59,6 @@ const EditUserForm = () => {
                 type="email"
                 label="Email Address"
                 id="email"
-                size="small"
-                variant="filled"
                 fullWidth
                 sx={{ mb: 2 }}
                 {...getFieldProps("email")}
@@ -84,8 +70,6 @@ const EditUserForm = () => {
                 type="password"
                 label="password"
                 id="Password"
-                size="small"
-                variant="filled"
                 fullWidth
                 sx={{ mb: 2 }}
                 {...getFieldProps("password")}
@@ -99,8 +83,6 @@ const EditUserForm = () => {
                 type="password"
                 label="Confirm Password"
                 id="confirm password"
-                size="small"
-                variant="filled"
                 fullWidth
                 sx={{ mb: 2 }}
                 {...getFieldProps("password_confirmation")}
@@ -118,9 +100,10 @@ const EditUserForm = () => {
                 }
               />
 
-              <Button type="submit" variant="contained" disabled={isSubmitting}>
+              <SubmitButton loading={isSubmitting} not_block>
                 Edit
-              </Button>
+              </SubmitButton>
+
               <Button
                 type="button"
                 variant="contained"

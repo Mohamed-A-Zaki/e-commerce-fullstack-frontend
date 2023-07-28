@@ -1,17 +1,19 @@
 import { useState } from "react";
+import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
-import axios, { AxiosResponse, AxiosError } from "axios";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
-
-import LoadingButton from "@mui/lab/LoadingButton";
-import { Alert, Box, TextField, Typography } from "@mui/material";
+import axios, { AxiosResponse, AxiosError } from "axios";
 
 import Auth_Res_Data from "../types/auth.type";
 import { useAppDispatch } from "../store/hooks";
 import { setAuthData } from "../store/authSlice";
+
+import AuthForm from "../Components/AuthForm";
+import FormHeading from "../Components/FormHeading";
+import SubmitButton from "../Components/SubmitButton";
+import ErrorMessage from "../Components/ErrorMessage";
 
 const LogIn = () => {
   const [error, setError] = useState("");
@@ -46,43 +48,14 @@ const LogIn = () => {
       }}
     >
       {({ getFieldProps, handleSubmit, errors, touched, isSubmitting }) => (
-        <Box
-          noValidate
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{
-            width: 600,
-            maxWidth: "100%",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            boxShadow: 3,
-            p: 4,
-            borderRadius: 2,
-          }}
-        >
-          <Typography
-            variant="h4"
-            component="h1"
-            textAlign="center"
-            sx={{ mb: 2 }}
-          >
-            Login
-          </Typography>
-
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
+        <AuthForm onSubmit={handleSubmit}>
+          <FormHeading>Login</FormHeading>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
 
           <TextField
             type="email"
             label="Email Address"
             id="email"
-            size="small"
-            variant="filled"
             fullWidth
             sx={{ mb: 2 }}
             {...getFieldProps("email")}
@@ -94,8 +67,6 @@ const LogIn = () => {
             type="password"
             label="password"
             id="Password"
-            size="small"
-            variant="filled"
             fullWidth
             sx={{ mb: 2 }}
             {...getFieldProps("password")}
@@ -105,21 +76,8 @@ const LogIn = () => {
             error={!!(errors.password && touched.password)}
           />
 
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-            loadingIndicator="Loadin..."
-            sx={{
-              display: "block",
-              m: "auto",
-              minWidth: 120,
-              maxWidth: "100%",
-            }}
-          >
-            Login
-          </LoadingButton>
-        </Box>
+          <SubmitButton loading={isSubmitting}>Login</SubmitButton>
+        </AuthForm>
       )}
     </Formik>
   );

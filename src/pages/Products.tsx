@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   TableContainer,
   Paper,
@@ -6,14 +7,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Alert,
   Box,
-  Typography,
 } from "@mui/material";
-import ProductList from "../Components/ProductList";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { useEffect } from "react";
+
 import { get_products } from "../store/productsSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+
+import ProductList from "../Components/ProductList";
+import InfoMessage from "../Components/InfoMessage";
+import ErrorMessage from "../Components/ErrorMessage";
+import LoadingComponent from "../Components/LoadingComponent";
 
 const Products = () => {
   const dispatch = useAppDispatch();
@@ -24,27 +27,15 @@ const Products = () => {
   useEffect(() => void dispatch(get_products()), [dispatch]);
 
   if (loading) {
-    return (
-      <Typography sx={{ m: 2, textAlign: "center" }} variant="h5">
-        Loading...
-      </Typography>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <Alert sx={{ m: 2 }} severity="error">
-        {error}
-      </Alert>
-    );
+    return <ErrorMessage>{error}</ErrorMessage>;
   }
 
   if (!products.length) {
-    return (
-      <Alert sx={{ m: 2 }} severity="info">
-        There is no products
-      </Alert>
-    );
+    return <InfoMessage>There is no products</InfoMessage>;
   }
 
   return (

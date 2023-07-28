@@ -1,7 +1,8 @@
+import axios, { AxiosResponse } from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import Global_State from "../types/global_state.type";
+
 import Product from "../types/product.type";
+import Global_State from "../types/global_state.type";
 
 type InitialState = {
   products: Product[];

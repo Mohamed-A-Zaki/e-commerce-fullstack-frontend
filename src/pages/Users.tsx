@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   TableContainer,
   Paper,
@@ -6,16 +7,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Alert,
   Box,
-  Typography,
 } from "@mui/material";
-
-import { useEffect } from "react";
-import UsersList from "../Components/UsersList";
 
 import { get_users } from "../store/usersSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+
+import UsersList from "../Components/UsersList";
+import InfoMessage from "../Components/InfoMessage";
+import ErrorMessage from "../Components/ErrorMessage";
+import LoadingComponent from "../Components/LoadingComponent";
 
 const Users = () => {
   const dispatch = useAppDispatch();
@@ -24,27 +25,15 @@ const Users = () => {
   useEffect(() => void dispatch(get_users()), [dispatch]);
 
   if (loading) {
-    return (
-      <Typography sx={{ m: 2, textAlign: "center" }} variant="h5">
-        Loading...
-      </Typography>
-    );
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return (
-      <Alert sx={{ m: 2 }} severity="error">
-        {error}
-      </Alert>
-    );
+    return <ErrorMessage>{error}</ErrorMessage>;
   }
 
   if (!users.length) {
-    return (
-      <Alert sx={{ m: 2 }} severity="info">
-        There is no users
-      </Alert>
-    );
+    return <InfoMessage>There is no users</InfoMessage>;
   }
 
   return (
