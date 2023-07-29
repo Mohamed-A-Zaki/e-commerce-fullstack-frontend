@@ -5,10 +5,20 @@ type Data = {
   user: User;
 };
 
-type Auth_Res_Data = {
+export type Auth_Res_Data = {
   data: Data;
   message: string;
   status: string;
 };
 
-export default Auth_Res_Data;
+export type SignupData = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+};
+
+export type LoginData = {
+  email: string;
+  password: string;
+};

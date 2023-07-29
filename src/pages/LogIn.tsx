@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
-import axios, { AxiosResponse, AxiosError } from "axios";
 
-import Auth_Res_Data from "../types/auth.type";
+import { log_in } from "../store/authSlice";
 import { useAppDispatch } from "../store/hooks";
-import { setAuthData } from "../store/authSlice";
 
 import AuthForm from "../Components/AuthForm";
 import FormHeading from "../Components/FormHeading";
@@ -31,20 +29,14 @@ const LogIn = () => {
         email: Yup.string().required().email(),
         password: Yup.string().required().min(8),
       })}
-      onSubmit={async (values) => {
-        try {
-          const { data }: AxiosResponse<Auth_Res_Data> = await axios.post(
-            "http://127.0.0.1:8000/api/login",
-            values
-          );
-          dispatch(setAuthData(data.data));
-          navigate("/", { replace: true });
-        } catch (error) {
-          const _error = error as AxiosError;
-          const { status, data } =
-            _error.response as AxiosResponse<Auth_Res_Data>;
-          setError(status === 404 ? _error.message : data.message);
-        }
+      onSubmit={(values, { setSubmitting }) => {
+        dispatch(log_in(values))
+          .unwrap()
+          .then(() => navigate("/", { replace: true }))
+          .catch((error) => {
+            setError((error as Error).message);
+            setSubmitting(false);
+          });
       }}
     >
       {({ getFieldProps, handleSubmit, errors, touched, isSubmitting }) => (
