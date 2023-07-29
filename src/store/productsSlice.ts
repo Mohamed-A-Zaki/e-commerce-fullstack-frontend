@@ -101,6 +101,4 @@ const productsSlice = createSlice({
   },
 });
 
-// export const {} = productsSlice.actions;
-
 export default productsSlice.reducer;

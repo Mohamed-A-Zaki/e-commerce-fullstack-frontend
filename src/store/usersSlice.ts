@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import User from "../types/user.type";
-import SignupData from "../types/SignupData.type";
+import { SignupData } from "../types/auth.type";
 import Global_State from "../types/global_state.type";
 
 type InitialState = {
@@ -113,11 +113,6 @@ const usersSlice = createSlice({
         state.error = error.message as string;
       })
 
-      // delete user
-      .addCase(delete_user.fulfilled, (state, { payload }) => {
-        state.users = state.users.filter((ele) => ele.id !== payload);
-      })
-
       // get user
       .addCase(get_user.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -132,6 +127,11 @@ const usersSlice = createSlice({
             user.name = values.name;
           }
         });
+      })
+
+      // delete user
+      .addCase(delete_user.fulfilled, (state, { payload }) => {
+        state.users = state.users.filter((ele) => ele.id !== payload);
       });
   },
 });
