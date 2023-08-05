@@ -6,11 +6,11 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const NavbarLinks = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
+  const { token } = useAppSelector((state) => state.auth);
 
   return (
     <>
-      {user ? (
+      {token ? (
         <Button
           variant="contained"
           size="small"

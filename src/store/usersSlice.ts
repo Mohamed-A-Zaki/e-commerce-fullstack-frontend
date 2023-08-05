@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import User from "../types/user.type";
@@ -26,7 +26,7 @@ export const get_users = createAsyncThunk(
     const url = "http://127.0.0.1:8000/api/user/show";
     const token = (ThunkAPI.getState() as Global_State).auth.token;
 
-    const { data }: AxiosResponse<User[]> = await axios.get(url, {
+    const { data } = await axios.get<User[]>(url, {
       headers: { Authorization: "Bearer " + token },
     });
 
@@ -41,7 +41,7 @@ export const get_user = createAsyncThunk(
     const url = `http://127.0.0.1:8000/api/user/showbyid/${id}`;
     const token = (ThunkAPI.getState() as Global_State).auth.token;
 
-    const { data }: AxiosResponse<User[]> = await axios.get(url, {
+    const { data } = await axios.get<User[]>(url, {
       headers: { Authorization: "Bearer " + token },
     });
 

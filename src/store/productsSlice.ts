@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import Product from "../types/product.type";
@@ -27,7 +27,7 @@ export const get_products = createAsyncThunk(
     // get token for authorization
     const token = (ThunkAPI.getState() as Global_State).auth.token;
 
-    const { data }: AxiosResponse<Product[]> = await axios.get(url, {
+    const { data } = await axios.get<Product[]>(url, {
       headers: { Authorization: "Bearer " + token },
     });
 

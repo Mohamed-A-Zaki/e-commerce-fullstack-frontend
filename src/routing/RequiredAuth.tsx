@@ -6,8 +6,8 @@ type Props = {
 };
 
 const RequiredAuth = ({ children }: Props) => {
-  const { user } = useAppSelector((state) => state.auth);
-  return user ? children : <Navigate to="/login" replace />;
+  const { token } = useAppSelector((state) => state.auth);
+  return token ? children : <Navigate to="/login" replace />;
 };
 
 export default RequiredAuth;

@@ -9,11 +9,16 @@ import CreateUser from "../pages/CreateUser";
 import RequiredAuth from "./RequiredAuth";
 import Products from "../pages/Products";
 import CreateProduct from "../pages/CreateProduct";
+import PersistLogin from "./PersistLogin";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <PersistLogin>
+        <App />
+      </PersistLogin>
+    ),
   },
   {
     path: "/login",
@@ -26,9 +31,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <RequiredAuth>
-        <Dashboard />
-      </RequiredAuth>
+      <PersistLogin>
+        <RequiredAuth>
+          <Dashboard />
+        </RequiredAuth>
+      </PersistLogin>
     ),
     children: [
       {
