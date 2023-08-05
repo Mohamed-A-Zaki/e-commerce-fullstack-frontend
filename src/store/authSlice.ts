@@ -46,14 +46,17 @@ export const log_out = createAsyncThunk("auth/log_out", async (_, ThunkAPI) => {
 
 // export const refresh_token = createAsyncThunk(
 //   "auth/refresh_token",
-//   async (_, ThunkAPI) => {
+//   async (token: string) => {
 //     const url = "http://127.0.0.1:8000/api/refresh";
-//     const { data }: AxiosResponse<InitialState> = await axios.post(url, null, {
-//       headers: {
-//         Authorization:
-//           "Bearer " + (ThunkAPI.getState() as Global_State).auth.token,
-//       },
+
+//     console.log(token);
+
+//     const { data } = await axios.post<InitialState>(url, null, {
+//       headers: { Authorization: "Bearer " + token },
 //     });
+
+//     console.log(data.token);
+
 //     return data.token;
 //   }
 // );
@@ -86,8 +89,10 @@ const authSlice = createSlice({
         state.user = null;
         localStorage.removeItem("token");
       });
+    // // refresh token
     // .addCase(refresh_token.fulfilled, (state, { payload }) => {
     //   state.token = payload;
+    //   localStorage.setItem("token", payload);
     // });
   },
 });

@@ -8,7 +8,11 @@ type Props = {
 const PersistLogin = ({ children }: Props) => {
   const dispatch = useAppDispatch();
 
-  dispatch(setToken(localStorage.getItem("token") || ""));
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    dispatch(setToken(token));
+  }
 
   return children;
 };
